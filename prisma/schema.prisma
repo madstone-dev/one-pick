@@ -1,0 +1,170 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                 Int                 @id @default(autoincrement())
+  social             String?
+  email              String              @unique
+  username           String              @unique
+  password           String
+  avatar             String?
+  role               Role                @default(user)
+  quizs              Quiz[]
+  quizTries          QuizTry[]
+  conquests          WinnersOnQuizs[]
+  quizComments       QuizComment[]
+  quizLikes          QuizLike[]
+  userBlocks         UserBlock[]
+  quizBlocks         QuizBlock[]
+  quizCommentBlocks  QuizCommentBlock[]
+  quizReports        QuizReport[]
+  quizCommentReports QuizCommentReport[]
+  refreshToken       String?
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+}
+
+enum Role {
+  user
+  admin
+}
+
+model UserBlock {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  blockId   Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Quiz {
+  id           Int              @id @default(autoincrement())
+  user         User?            @relation(fields: [userId], references: [id])
+  userId       Int?
+  genre        String
+  image        String?
+  content      String
+  choice       String[]
+  answer       Int
+  quizHashtags QuizHashtag[]
+  quizTries    QuizTry[]
+  winners      WinnersOnQuizs[]
+  quizComments QuizComment[]
+  quizLikes    QuizLike[]
+  quizBlocks   QuizBlock[]
+  quizReports  QuizReport[]
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+}
+
+model QuizHashtag {
+  id        Int      @id @default(autoincrement())
+  hashtag   String   @unique
+  quizs     Quiz[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model QuizTry {
+  id        Int      @id @default(autoincrement())
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    Int?
+  quiz      Quiz?    @relation(fields: [quizId], references: [id])
+  quizId    Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model WinnersOnQuizs {
+  id        Int      @id @default(autoincrement())
+  quiz      Quiz?    @relation(fields: [quizId], references: [id])
+  quizId    Int?
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([quizId, userId])
+}
+
+model QuizLike {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  quiz      Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  quizId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([quizId, userId])
+}
+
+model QuizBlock {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  quiz      Quiz     @relation(fields: [quizId], references: [id])
+  quizId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([quizId, userId])
+}
+
+model QuizReport {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  quiz      Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  quizId    Int
+  type      Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([quizId, userId])
+}
+
+model QuizComment {
+  id                 Int                 @id @default(autoincrement())
+  user               User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId             Int
+  quiz               Quiz                @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  quizId             Int
+  content            String
+  quizCommentBlocks  QuizCommentBlock[]
+  quizCommentReports QuizCommentReport[]
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+}
+
+model QuizCommentBlock {
+  id            Int         @id @default(autoincrement())
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        Int
+  quizComment   QuizComment @relation(fields: [quizCommentId], references: [id])
+  quizCommentId Int
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@unique([userId, quizCommentId])
+}
+
+model QuizCommentReport {
+  id            Int         @id @default(autoincrement())
+  user          User        @relation(fields: [userId], references: [id])
+  userId        Int
+  quizComment   QuizComment @relation(fields: [quizCommentId], references: [id], onDelete: Cascade)
+  quizCommentId Int
+  type          Int
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@unique([userId, quizCommentId])
+}
