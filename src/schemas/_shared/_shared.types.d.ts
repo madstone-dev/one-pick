@@ -1,10 +1,10 @@
 import { User } from "@prisma/client";
-import { Session } from "express-session";
 
-type Context = {
+export interface Context {
+  req: any;
+  res: any;
   auth: User;
-  session: any;
-};
+}
 
 export type IcursorPaginateProps = {
   take: number;

@@ -1,6 +1,8 @@
 import client from "../../../client";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import Cookies from "cookies";
+import { Context } from "../../_shared/_shared.types";
 
 interface IloginForm {
   email: string;
@@ -9,7 +11,11 @@ interface IloginForm {
 
 export default {
   Mutation: {
-    login: async (_: any, { email, password }: IloginForm) => {
+    login: async (
+      _: any,
+      { email, password }: IloginForm,
+      { req, res }: Context
+    ) => {
       const user = await client.user.findUnique({
         where: {
           email,
@@ -32,8 +38,25 @@ export default {
 
       const accessToken = await jwt.sign(
         { id: user.id },
-        process.env.ACCESS_TOKEN_KEY as string
+        process.env.SERVER_KEY as string,
+        { expiresIn: "1h" }
       );
+
+      const refreshToken = await jwt.sign(
+        { id: user.id },
+        process.env.COOKIES_KEY as string,
+        { expiresIn: "14d" }
+      );
+
+      const cookies = new Cookies(req, res, {
+        keys: [process.env.COOKIES_KEY as string],
+      });
+
+      cookies.set("refreshToken", refreshToken, {
+        signed: true,
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+      });
 
       return {
         ok: true,

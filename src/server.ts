@@ -9,7 +9,6 @@ import logger from "morgan";
 import { applyMiddleware } from "graphql-middleware";
 import { createRateLimitRule } from "graphql-rate-limit";
 import { allow, shield } from "graphql-shield";
-import { getUser } from "./schemas/users/users.utils";
 import depthLimit from "graphql-depth-limit";
 dotenv.config();
 
@@ -56,13 +55,11 @@ async function startApolloServer() {
   const server = new ApolloServer({
     schema: schemaWithMiddleware,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
-    context: async ({ req }) => {
-      const token = req.headers.authorization || "";
-      const user = await getUser(token);
-      return { auth: user, session: req.session };
+    context: ({ req, res }) => {
+      return { req, res };
     },
     validationRules: [depthLimit(10)],
-    introspection: false,
+    introspection: process.env.NODE_ENV !== "production",
   });
 
   await server.start();

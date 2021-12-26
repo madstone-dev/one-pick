@@ -22,12 +22,24 @@ export default {
                 id: true,
               },
             },
+            pickers: {
+              select: {
+                id: true,
+              },
+            },
           },
         });
         if (!oldQuestion) {
           return {
             ok: false,
             error: "질문을 찾을 수 없습니다.",
+          };
+        }
+
+        if (oldQuestion.pickers.length > 0) {
+          return {
+            ok: false,
+            error: "참여자가 있어 수정이 불가능합니다.",
           };
         }
 

@@ -11,6 +11,7 @@ export default gql`
     questionHashtags: [QuestionHashtag]
     pickers(take: Int, lastId: Int): [PickersOnQuestions]
     isPicker: Boolean!
+    myPick: Int
     questionComments(take: Int, lastId: Int): [QuestionComment]
     totalComments: Int!
     questionLikes(take: Int, lastId: Int): [QuestionLike]

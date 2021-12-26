@@ -69,6 +69,25 @@ export default {
       }
       return false;
     },
+    myPick: async ({ id }: { id: number }, __: any, { auth }: any) => {
+      if (!auth) {
+        return;
+      }
+      const pick = await client.pickersOnQuestions.findFirst({
+        where: {
+          questionId: id,
+          userId: auth.id,
+        },
+        select: {
+          pick: true,
+        },
+      });
+      if (pick) {
+        return pick.pick;
+      } else {
+        return;
+      }
+    },
     questionComments: (
       { id }: { id: number },
       { take = 20, lastId }: IcursorPaginateProps
