@@ -3,11 +3,11 @@ import { Context, IcursorPaginateProps } from "../_shared/_shared.types";
 
 export default {
   User: {
-    quizs: (
+    questions: (
       { id }: { id: number },
       { take = 20, lastId }: IcursorPaginateProps
     ) =>
-      client.quiz.findMany({
+      client.question.findMany({
         where: {
           userId: id,
         },
@@ -22,36 +22,13 @@ export default {
           },
         }),
       }),
-    quizTries: (
+    picks: (
       { id }: { id: number },
       { take = 20, lastId }: IcursorPaginateProps
     ) =>
-      client.quiz.findMany({
+      client.question.findMany({
         where: {
-          quizTries: {
-            some: {
-              userId: id,
-            },
-          },
-        },
-        orderBy: {
-          createdAt: "desc",
-        },
-        take,
-        skip: lastId ? 1 : 0,
-        ...(lastId && {
-          cursor: {
-            id: lastId,
-          },
-        }),
-      }),
-    conquests: (
-      { id }: { id: number },
-      { take = 20, lastId }: IcursorPaginateProps
-    ) =>
-      client.quiz.findMany({
-        where: {
-          winners: {
+          pickers: {
             some: {
               userId: id,
             },
@@ -69,12 +46,12 @@ export default {
         }),
       }),
     totalConquests: ({ id }: { id: number }) =>
-      client.winnersOnQuizs.count({ where: { userId: id } }),
-    quizComments: (
+      client.pickersOnQuestions.count({ where: { userId: id } }),
+    questionComments: (
       { id }: { id: number },
       { take = 20, lastId }: IcursorPaginateProps
     ) =>
-      client.quizComment.findMany({
+      client.questionComment.findMany({
         where: {
           userId: id,
         },
@@ -89,13 +66,13 @@ export default {
           },
         }),
       }),
-    quizLikes: (
+    questionLikes: (
       { id }: { id: number },
       { take = 20, lastId }: IcursorPaginateProps
     ) =>
-      client.quiz.findMany({
+      client.question.findMany({
         where: {
-          quizLikes: {
+          questionLikes: {
             some: {
               userId: id,
             },
@@ -145,7 +122,7 @@ export default {
         }),
       });
     },
-    quizBlocks: async (
+    questionBlocks: async (
       { id }: { id: number },
       { take = 20, lastId }: IcursorPaginateProps,
       { auth }: Context
@@ -158,9 +135,9 @@ export default {
         return [];
       }
 
-      return await client.quiz.findMany({
+      return await client.question.findMany({
         where: {
-          quizBlocks: {
+          questionBlocks: {
             some: {
               userId: id,
             },
@@ -178,7 +155,7 @@ export default {
         }),
       });
     },
-    quizCommentBlocks: async (
+    questionCommentBlocks: async (
       { id }: { id: number },
       { take = 20, lastId }: IcursorPaginateProps,
       { auth }: Context
@@ -191,9 +168,9 @@ export default {
         return [];
       }
 
-      return await client.quizComment.findMany({
+      return await client.questionComment.findMany({
         where: {
-          quizCommentBlocks: {
+          questionCommentBlocks: {
             some: {
               userId: id,
             },

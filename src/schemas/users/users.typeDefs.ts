@@ -8,15 +8,14 @@ export default gql`
     username: String!
     avatar: JSON_Parsed
     role: String!
-    quizs(take: Int, lastId: Int): [Quiz]
-    quizTries(take: Int, lastId: Int): [QuizTry]
-    conquests(take: Int, lastId: Int): [WinnersOnQuizs]
+    questions(take: Int, lastId: Int): [Question]
+    picks(take: Int, lastId: Int): [PickersOnQuestions]
     totalConquests: Int!
-    quizComments(take: Int, lastId: Int): [QuizComment]
-    quizLikes(take: Int, lastId: Int): [QuizLike]
+    questionComments(take: Int, lastId: Int): [QuestionComment]
+    questionLikes(take: Int, lastId: Int): [QuestionLike]
     userBlocks(take: Int, lastId: Int): [UserBlock]
-    quizBlocks(take: Int, lastId: Int): [QuizBlock]
-    quizCommentBlocks(take: Int, lastId: Int): [QuizCommentBlock]
+    questionBlocks(take: Int, lastId: Int): [QuestionBlock]
+    questionCommentBlocks(take: Int, lastId: Int): [QuestionCommentBlock]
     isBlocked: Boolean!
     createdAt: String!
     updatedAt: String!

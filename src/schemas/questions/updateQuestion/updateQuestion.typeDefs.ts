@@ -1,0 +1,19 @@
+import { gql } from "apollo-server-core";
+
+export default gql`
+  type UpdateQuestionResult {
+    ok: Boolean!
+    error: String
+    question: Question
+  }
+
+  type Mutation {
+    updateQuestion(
+      id: Int!
+      title: String
+      image: Upload
+      choice: [String]
+      questionHashtags: String
+    ): UpdateQuestionResult!
+  }
+`;
