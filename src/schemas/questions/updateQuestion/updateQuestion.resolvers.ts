@@ -10,7 +10,7 @@ import { choiceMax, processHashtags } from "../questions.utils";
 export default {
   Mutation: {
     updateQuestion: authResolver(
-      async (_, { id, title, image, choice, questionHashtags }, { auth }) => {
+      async (_, { id, content, image, choice, questionHashtags }, { auth }) => {
         const oldQuestion = await client.question.findFirst({
           where: {
             id,
@@ -52,11 +52,11 @@ export default {
           }
         }
 
-        if (title) {
-          if (!title.trim()) {
+        if (content) {
+          if (!content.trim()) {
             return {
               ok: false,
-              error: "제목을 반드시 입력해주세요",
+              error: "내용을 반드시 입력해주세요",
             };
           }
         }
@@ -106,7 +106,7 @@ export default {
             id,
           },
           data: {
-            title,
+            content,
             image: imageData,
             choice,
             ...(questionHashtags && {

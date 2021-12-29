@@ -2,6 +2,6 @@ import { gql } from "apollo-server-core";
 
 export default gql`
   type Query {
-    showQuestionComments(take: Int, lastId: Int): [QuestionComment]
+    showQuestionComments(id: Int!, take: Int, lastId: Int): [QuestionComment]
   }
 `;

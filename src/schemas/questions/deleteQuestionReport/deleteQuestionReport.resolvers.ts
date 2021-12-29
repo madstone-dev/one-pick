@@ -1,9 +1,9 @@
 import client from "../../../client";
-import { adminResolver, authResolver } from "../../users/users.utils";
+import { adminResolver } from "../../users/users.utils";
 
 export default {
   Mutation: {
-    deleteQuestionReport: adminResolver(async (_, { id }) => {
+    deleteQuestionReport: adminResolver(async (_, { id }, { auth }) => {
       const questionReport = await client.questionReport.findUnique({
         where: {
           id,
@@ -13,7 +13,7 @@ export default {
       if (!questionReport) {
         return {
           ok: false,
-          error: "권한이 없습니다.",
+          error: "리포트가 없습니다.",
         };
       }
 

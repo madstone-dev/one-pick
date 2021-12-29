@@ -10,7 +10,7 @@ export default gql`
   type Mutation {
     updateQuestion(
       id: Int!
-      title: String
+      content: String
       image: Upload
       choice: [String]
       questionHashtags: String

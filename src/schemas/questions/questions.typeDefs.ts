@@ -5,11 +5,12 @@ export default gql`
     id: Int!
     user: User
     isMine: Boolean!
-    title: String!
+    content: String!
     image: JSON_Parsed
     choice: [String!]!
     questionHashtags: [QuestionHashtag]
     pickers(take: Int, lastId: Int): [PickersOnQuestions]
+    totalPickers: Int!
     isPicker: Boolean!
     myPick: Int
     questionComments(take: Int, lastId: Int): [QuestionComment]

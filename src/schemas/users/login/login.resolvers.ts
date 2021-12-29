@@ -38,14 +38,12 @@ export default {
 
       const accessToken = await jwt.sign(
         { id: user.id },
-        process.env.SERVER_KEY as string,
-        { expiresIn: "1h" }
+        process.env.SERVER_KEY as string
       );
 
       const refreshToken = await jwt.sign(
         { id: user.id },
-        process.env.COOKIES_KEY as string,
-        { expiresIn: "14d" }
+        process.env.COOKIES_KEY as string
       );
 
       const cookies = new Cookies(req, res, {

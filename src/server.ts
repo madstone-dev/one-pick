@@ -10,6 +10,7 @@ import { applyMiddleware } from "graphql-middleware";
 import { createRateLimitRule } from "graphql-rate-limit";
 import { allow, shield } from "graphql-shield";
 import depthLimit from "graphql-depth-limit";
+import { validAcessToken } from "./server.utils";
 dotenv.config();
 
 const PORT = process.env.PORT || 4000;
@@ -18,11 +19,6 @@ async function startApolloServer() {
   const app = express();
   app.use(logger("tiny"));
   app.use(graphqlUploadExpress());
-  app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    next();
-  });
-
   const httpServer = http.createServer(app);
 
   const rateLimitRule = createRateLimitRule({
@@ -55,17 +51,35 @@ async function startApolloServer() {
   const server = new ApolloServer({
     schema: schemaWithMiddleware,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
-    context: ({ req, res }) => {
-      return { req, res };
+    context: async ({ req, res }) => {
+      const accessToken = req.headers.authorization || "";
+      return await validAcessToken({ req, res, accessToken });
     },
     validationRules: [depthLimit(10)],
     introspection: process.env.NODE_ENV !== "production",
   });
 
   await server.start();
+
+  const whitelist = [
+    "http://localhost:3000",
+    "https://studio.apollographql.com",
+  ];
+
+  const corsOption = {
+    origin: function (origin: any, callback: any) {
+      if (whitelist.indexOf(origin) !== -1 || !origin) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  };
   server.applyMiddleware({
     app,
     path: "/",
+    cors: corsOption,
   });
 
   await new Promise<void>((resolve) => {

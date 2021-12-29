@@ -5,9 +5,22 @@ export default {
   Query: {
     showQuestionComments: (
       _: any,
-      { take = 20, lastId }: IcursorPaginateProps
+      { id, take = 20, lastId }: IcursorPaginateProps,
+      { auth }: any
     ) => {
       return client.questionComment.findMany({
+        where: {
+          questionId: id,
+          ...(auth && {
+            NOT: {
+              questionCommentBlocks: {
+                some: {
+                  userId: auth.id,
+                },
+              },
+            },
+          }),
+        },
         orderBy: {
           createdAt: "desc",
         },

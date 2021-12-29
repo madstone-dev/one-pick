@@ -49,7 +49,6 @@ export const deleteSingleFromS3 = async (Bucket: string, Key: string) => {
       data: deleteResult,
     };
   } catch (error) {
-    console.log(error);
     return {
       error: "파일 삭제에 실패했습니다.",
     };

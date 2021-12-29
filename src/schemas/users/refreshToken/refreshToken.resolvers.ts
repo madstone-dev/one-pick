@@ -10,6 +10,7 @@ export default {
         keys: [process.env.COOKIES_KEY as string],
       });
       const token = cookies.get("refreshToken", { signed: true });
+      console.log(token);
       if (token) {
         try {
           const verifiedToken: any = jwt.verify(
@@ -23,8 +24,7 @@ export default {
             if (user) {
               const accessToken = await jwt.sign(
                 { id: user.id },
-                process.env.SERVER_KEY as string,
-                { expiresIn: "30s" }
+                process.env.SERVER_KEY as string
               );
 
               return {

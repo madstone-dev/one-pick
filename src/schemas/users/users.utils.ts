@@ -6,7 +6,8 @@ export const getUser = async (token: string) => {
   if (!token) {
     return null;
   }
-  const verifiedToken: any = jwt.verify(
+
+  const verifiedToken: any = await jwt.verify(
     token,
     process.env.SERVER_KEY as string
   );
@@ -25,61 +26,41 @@ export const getUser = async (token: string) => {
 export const authResolver =
   (next: Resolver) =>
   async (root: any, args: any, context: Context, info: any) => {
-    const token = context.req.headers.authorization || "";
-    try {
-      const user = await getUser(token);
-      if (!user) {
-        const query = info.operation.operation === "query";
-        if (query) {
-          return null;
-        } else {
-          return {
-            ok: false,
-            error: "로그인이 필요한 요청입니다.",
-          };
-        }
-      }
-      return next(
-        root,
-        args,
-        { req: context.req, res: context.res, auth: user },
-        info
-      );
-    } catch (error) {
-      throw Error("유효한 액세스 토큰이 아닙니다.");
+    if (context.auth) {
+      return next(root, args, context, info);
+    } else {
+      return tokenValid(context, info);
     }
   };
 
 export const adminResolver =
   (next: Resolver) =>
   async (root: any, args: any, context: Context, info: any) => {
-    const token = context.req.headers.authorization || "";
-    try {
-      const user = await getUser(token);
-      if (!user) {
-        const query = info.operation.operation === "query";
-        if (query) {
-          return null;
-        } else {
-          return {
-            ok: false,
-            error: "로그인이 필요한 요청입니다.",
-          };
-        }
-      }
-      if (user.role !== "admin") {
+    if (context.auth) {
+      if (context.auth.role !== "admin") {
         return {
           ok: false,
           error: "권한이 없습니다",
         };
       }
-      return next(
-        root,
-        args,
-        { req: context.req, res: context.res, auth: user },
-        info
-      );
-    } catch (error) {
-      throw Error("유효한 액세스 토큰이 아닙니다.");
+      return next(root, args, context, info);
+    } else {
+      return tokenValid(context, info);
     }
   };
+
+const tokenValid = (context: any, info: any) => {
+  const token = context.req.headers.authorization;
+  const query = info.operation.operation === "query";
+  if (token) {
+    throw Error("유효한 액세스 토큰이 아닙니다.");
+  }
+  if (query) {
+    return null;
+  } else {
+    return {
+      ok: false,
+      error: "로그인이 필요한 요청입니다.",
+    };
+  }
+};

@@ -4,7 +4,7 @@ import { adminResolver } from "../../users/users.utils";
 export default {
   Query: {
     showQuestionCommentReports: adminResolver(
-      async (_, { take = 20, lastId }) => {
+      async (_, { take = 20, lastId }, { auth }) => {
         return client.questionCommentReport.findMany({
           orderBy: {
             createdAt: "desc",

@@ -5,8 +5,9 @@ export default gql`
     id: Int!
     user: User!
     question: Question!
-    title: String!
+    content: String!
     isBlocked: Boolean!
+    pick: Int!
   }
 
   type QuestionCommentBlock {

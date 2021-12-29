@@ -51,6 +51,12 @@ export default {
         include: { user: true },
       });
     },
+    totalPickers: ({ id }: { id: number }) =>
+      client.pickersOnQuestions.count({
+        where: {
+          questionId: id,
+        },
+      }),
     isPicker: async ({ id }: { id: number }, __: any, { auth }: any) => {
       if (!auth) {
         return false;

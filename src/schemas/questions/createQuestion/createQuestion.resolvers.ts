@@ -9,11 +9,15 @@ import { choiceMax, processHashtags } from "../questions.utils";
 export default {
   Mutation: {
     createQuestion: authResolver(
-      async (_, { title, image, choice = [], questionHashtags }, { auth }) => {
-        if (!title.trim()) {
+      async (
+        _,
+        { content, image, choice = [], questionHashtags },
+        { auth }
+      ) => {
+        if (!content.trim()) {
           return {
             ok: false,
-            error: "제목을 반드시 입력해주세요",
+            error: "내용을 반드시 입력해주세요",
           };
         }
 
@@ -52,7 +56,7 @@ export default {
                 id: auth.id,
               },
             },
-            title,
+            content,
             image: imageData,
             choice,
             questionHashtags: {

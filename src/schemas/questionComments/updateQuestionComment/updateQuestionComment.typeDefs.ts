@@ -10,7 +10,7 @@ export default gql`
   type Mutation {
     updateQuestionComment(
       id: Int!
-      title: String!
+      content: String!
     ): UpdateQuestionCommentResult!
   }
 `;
