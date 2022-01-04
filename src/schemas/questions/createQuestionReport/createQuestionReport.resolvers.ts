@@ -24,6 +24,21 @@ export default {
         };
       }
 
+      const existsReport = await client.questionReport.findUnique({
+        where: {
+          questionId_userId: {
+            questionId: id,
+            userId: auth.id,
+          },
+        },
+      });
+
+      if (existsReport) {
+        return {
+          ok: true,
+        };
+      }
+
       await client.questionReport.create({
         data: {
           userId: auth.id,

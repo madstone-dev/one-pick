@@ -37,6 +37,13 @@ export default {
               error: "jpg, png 형식의 이미지만 지원됩니다.",
             };
           }
+          const { size } = await image;
+          if (size > 5242880) {
+            return {
+              ok: false,
+              error: "최대 5mb 까지만 가능합니다.",
+            };
+          }
 
           const uploadResult = await uploadToS3(image, auth.id, "questions");
           if (uploadResult.error) {

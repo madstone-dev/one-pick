@@ -44,7 +44,7 @@ model UserBlock {
 
 model Question {
   id               Int                  @id @default(autoincrement())
-  user             User?                @relation(fields: [userId], references: [id])
+  user             User?                @relation(fields: [userId], references: [id], onDelete: SetNull)
   userId           Int?
   content          String
   image            String?
@@ -69,9 +69,9 @@ model QuestionHashtag {
 
 model PickersOnQuestions {
   id         Int       @id @default(autoincrement())
-  question   Question? @relation(fields: [questionId], references: [id])
+  question   Question? @relation(fields: [questionId], references: [id], onDelete: SetNull)
   questionId Int?
-  user       User?     @relation(fields: [userId], references: [id])
+  user       User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
   userId     Int?
   pick       Int
   createdAt  DateTime  @default(now())
@@ -96,7 +96,7 @@ model QuestionBlock {
   id         Int      @id @default(autoincrement())
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     Int
-  question   Question @relation(fields: [questionId], references: [id])
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
   questionId Int
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
@@ -106,7 +106,7 @@ model QuestionBlock {
 
 model QuestionReport {
   id         Int      @id @default(autoincrement())
-  user       User     @relation(fields: [userId], references: [id])
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     Int
   question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
   questionId Int
@@ -135,7 +135,7 @@ model QuestionCommentBlock {
   id                Int             @id @default(autoincrement())
   user              User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId            Int
-  questionComment   QuestionComment @relation(fields: [questionCommentId], references: [id])
+  questionComment   QuestionComment @relation(fields: [questionCommentId], references: [id], onDelete: Cascade)
   questionCommentId Int
   createdAt         DateTime        @default(now())
   updatedAt         DateTime        @updatedAt
@@ -145,7 +145,7 @@ model QuestionCommentBlock {
 
 model QuestionCommentReport {
   id                Int             @id @default(autoincrement())
-  user              User            @relation(fields: [userId], references: [id])
+  user              User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId            Int
   questionComment   QuestionComment @relation(fields: [questionCommentId], references: [id], onDelete: Cascade)
   questionCommentId Int

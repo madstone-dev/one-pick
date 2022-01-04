@@ -8,14 +8,14 @@ export default gql`
     content: String!
     isBlocked: Boolean!
     pick: Int!
+    createdAt: String!
+    updatedAt: String!
   }
 
   type QuestionCommentBlock {
     id: Int!
     uesr: User!
     questionComment: QuestionComment
-    createdAt: String!
-    updatedAt: String!
   }
 
   type QuestionCommentReport {

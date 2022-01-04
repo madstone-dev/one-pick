@@ -25,6 +25,21 @@ export default {
           };
         }
 
+        const existsReport = await client.questionCommentReport.findUnique({
+          where: {
+            userId_questionCommentId: {
+              userId: auth.id,
+              questionCommentId: id,
+            },
+          },
+        });
+
+        if (existsReport) {
+          return {
+            ok: true,
+          };
+        }
+
         await client.questionCommentReport.create({
           data: {
             userId: auth.id,
