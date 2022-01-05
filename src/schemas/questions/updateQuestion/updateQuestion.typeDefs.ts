@@ -14,6 +14,7 @@ export default gql`
       image: Upload
       choice: [String]
       questionHashtags: String
+      fileExsits: Boolean!
     ): UpdateQuestionResult!
   }
 `;

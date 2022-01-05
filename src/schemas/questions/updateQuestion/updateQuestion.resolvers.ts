@@ -10,7 +10,11 @@ import { choiceMax, processHashtags } from "../questions.utils";
 export default {
   Mutation: {
     updateQuestion: authResolver(
-      async (_, { id, content, image, choice, questionHashtags }, { auth }) => {
+      async (
+        _,
+        { id, content, image, choice, questionHashtags, fileExsits },
+        { auth }
+      ) => {
         const oldQuestion = await client.question.findFirst({
           where: {
             id,
@@ -61,32 +65,44 @@ export default {
           }
         }
 
-        if (image && oldQuestion.image) {
-          const { Bucket, Key } = JSON.parse(oldQuestion.image);
-          const deleteResult = await deleteSingleFromS3(Bucket, Key);
-          if (deleteResult.error) {
-            return {
-              ok: false,
-              error: deleteResult.error,
-            };
+        const removeOldImage = async () => {
+          if (oldQuestion.image) {
+            const { Bucket, Key } = JSON.parse(oldQuestion.image);
+            const deleteResult = await deleteSingleFromS3(Bucket, Key);
+            if (deleteResult.error) {
+              return {
+                ok: false,
+                error: deleteResult.error,
+              };
+            }
+            await client.question.update({
+              where: {
+                id,
+              },
+              data: {
+                image: null,
+              },
+            });
           }
-          await client.question.update({
-            where: {
-              id,
-            },
-            data: {
-              image: null,
-            },
-          });
-        }
+        };
 
         let imageData;
-        if (image) {
+        if (fileExsits) {
+          removeOldImage();
+        } else if (image) {
+          removeOldImage();
           const extensions = ["jpg", "jpeg", "png"];
           if (!(await validateFileExtensions(extensions, image))) {
             return {
               ok: false,
               error: "jpg, png 형식의 이미지만 지원됩니다.",
+            };
+          }
+          const { size } = await image;
+          if (size > 5242880) {
+            return {
+              ok: false,
+              error: "최대 5mb 까지만 가능합니다.",
             };
           }
 
