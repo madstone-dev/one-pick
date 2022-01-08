@@ -27,6 +27,7 @@ export default gql`
     id: Int!
     hashtag: String!
     questions: [Question!]!
+    totalQuestions: Int!
   }
   type PickersOnQuestions {
     id: Int!

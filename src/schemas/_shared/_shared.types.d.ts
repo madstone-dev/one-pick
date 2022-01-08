@@ -8,6 +8,7 @@ export interface Context {
 
 export type IcursorPaginateProps = {
   id?: number;
+  keyword?: string;
   take: number;
   lastId: number;
 };

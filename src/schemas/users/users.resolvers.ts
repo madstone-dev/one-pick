@@ -5,11 +5,21 @@ export default {
   User: {
     questions: (
       { id }: { id: number },
-      { take = 20, lastId }: IcursorPaginateProps
+      { take = 20, lastId }: IcursorPaginateProps,
+      { auth }: any
     ) =>
       client.question.findMany({
         where: {
           userId: id,
+          ...(auth && {
+            NOT: {
+              questionBlocks: {
+                some: {
+                  userId: auth.id,
+                },
+              },
+            },
+          }),
         },
         orderBy: {
           createdAt: "desc",
@@ -24,7 +34,8 @@ export default {
       }),
     picks: (
       { id }: { id: number },
-      { take = 20, lastId }: IcursorPaginateProps
+      { take = 20, lastId }: IcursorPaginateProps,
+      { auth }: any
     ) =>
       client.question.findMany({
         where: {
@@ -33,6 +44,15 @@ export default {
               userId: id,
             },
           },
+          ...(auth && {
+            NOT: {
+              questionBlocks: {
+                some: {
+                  userId: auth.id,
+                },
+              },
+            },
+          }),
         },
         orderBy: {
           createdAt: "desc",
@@ -45,7 +65,7 @@ export default {
           },
         }),
       }),
-    totalConquests: ({ id }: { id: number }) =>
+    totalPicks: ({ id }: { id: number }) =>
       client.pickersOnQuestions.count({ where: { userId: id } }),
     questionComments: (
       { id }: { id: number },
@@ -207,6 +227,13 @@ export default {
         } else {
           return false;
         }
+      }
+    },
+    isMe: async ({ id }: { id: number }, __: any, { auth }: Context) => {
+      if (!auth) {
+        return false;
+      } else {
+        return id === auth.id;
       }
     },
   },

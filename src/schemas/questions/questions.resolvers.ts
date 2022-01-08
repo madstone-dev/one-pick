@@ -175,6 +175,16 @@ export default {
       }
     },
   },
+  QuestionHashtag: {
+    totalQuestions: ({ id }: { id: number }) =>
+      client.question.count({
+        where: {
+          questionHashtags: {
+            some: { id },
+          },
+        },
+      }),
+  },
   QuestionBlock: {
     question: ({ questionId }: { questionId: number }) =>
       client.question.findUnique({

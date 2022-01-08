@@ -12,7 +12,7 @@ export default {
     updateQuestion: authResolver(
       async (
         _,
-        { id, content, image, choice, questionHashtags, fileExsits },
+        { id, content, image, choice, questionHashtags, fileExists },
         { auth }
       ) => {
         const oldQuestion = await client.question.findFirst({
@@ -87,9 +87,7 @@ export default {
         };
 
         let imageData;
-        if (fileExsits) {
-          removeOldImage();
-        } else if (image) {
+        if (image) {
           removeOldImage();
           const extensions = ["jpg", "jpeg", "png"];
           if (!(await validateFileExtensions(extensions, image))) {
@@ -114,6 +112,10 @@ export default {
             };
           } else {
             imageData = JSON.stringify(uploadResult.data);
+          }
+        } else {
+          if (!fileExists) {
+            removeOldImage();
           }
         }
 

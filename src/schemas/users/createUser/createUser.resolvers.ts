@@ -27,7 +27,7 @@ export default {
 
       const yupSchema = yup.object().shape({
         email: yup.string().email().required(),
-        username: yup.string().min(2).required(),
+        username: yup.string().min(2).max(30).required(),
         password: yup.string().min(8).required(),
       });
 
@@ -48,6 +48,11 @@ export default {
             }
             if (err.errors[0].values.path === "password") {
               message = `비밀번호는 최소 ${err.errors[0].values.min} 자리여야 입니다.`;
+            }
+          }
+          if (err.errors[0].key === "max") {
+            if (err.errors[0].values.path === "username") {
+              message = `닉네임은 최대 ${err.errors[0].values.max} 글자 이하이어야 합니다.`;
             }
           }
           return {

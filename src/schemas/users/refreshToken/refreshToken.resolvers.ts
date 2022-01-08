@@ -10,7 +10,6 @@ export default {
         keys: [process.env.COOKIES_KEY as string],
       });
       const token = cookies.get("refreshToken", { signed: true });
-      console.log(token);
       if (token) {
         try {
           const verifiedToken: any = jwt.verify(

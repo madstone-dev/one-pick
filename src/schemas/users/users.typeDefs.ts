@@ -9,14 +9,16 @@ export default gql`
     avatar: JSON_Parsed
     role: String!
     questions(take: Int, lastId: Int): [Question]
-    picks(take: Int, lastId: Int): [PickersOnQuestions]
-    totalConquests: Int!
+    picks(take: Int, lastId: Int): [Question]
+    totalPicks: Int!
     questionComments(take: Int, lastId: Int): [QuestionComment]
     questionLikes(take: Int, lastId: Int): [QuestionLike]
     userBlocks(take: Int, lastId: Int): [UserBlock]
     questionBlocks(take: Int, lastId: Int): [QuestionBlock]
     questionCommentBlocks(take: Int, lastId: Int): [QuestionCommentBlock]
     isBlocked: Boolean!
+    isMe: Boolean!
+    lastLogin: String
     createdAt: String!
     updatedAt: String!
   }
