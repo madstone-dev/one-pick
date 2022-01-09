@@ -8,6 +8,11 @@ export default gql`
   }
 
   type Mutation {
-    updateUser(password: String, avatar: Upload): UpdateUserResult!
+    updateUser(
+      username: String
+      password: String
+      avatar: Upload
+      fileExists: Boolean!
+    ): UpdateUserResult!
   }
 `;

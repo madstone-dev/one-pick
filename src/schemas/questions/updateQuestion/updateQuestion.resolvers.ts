@@ -88,7 +88,7 @@ export default {
 
         let imageData;
         if (image) {
-          removeOldImage();
+          await removeOldImage();
           const extensions = ["jpg", "jpeg", "png"];
           if (!(await validateFileExtensions(extensions, image))) {
             return {
@@ -115,7 +115,7 @@ export default {
           }
         } else {
           if (!fileExists) {
-            removeOldImage();
+            await removeOldImage();
           }
         }
 

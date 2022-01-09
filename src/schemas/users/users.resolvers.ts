@@ -1,3 +1,4 @@
+import { number } from "yup/lib/locale";
 import client from "../../client";
 import { Context, IcursorPaginateProps } from "../_shared/_shared.types";
 
@@ -85,6 +86,10 @@ export default {
             id: lastId,
           },
         }),
+      }),
+    totalQuestionComments: ({ id }: { id: number }) =>
+      client.questionComment.count({
+        where: { userId: id },
       }),
     questionLikes: (
       { id }: { id: number },

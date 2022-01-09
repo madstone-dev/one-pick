@@ -12,10 +12,11 @@ export default gql`
     picks(take: Int, lastId: Int): [Question]
     totalPicks: Int!
     questionComments(take: Int, lastId: Int): [QuestionComment]
+    totalQuestionComments: Int!
     questionLikes(take: Int, lastId: Int): [QuestionLike]
     userBlocks(take: Int, lastId: Int): [UserBlock]
-    questionBlocks(take: Int, lastId: Int): [QuestionBlock]
-    questionCommentBlocks(take: Int, lastId: Int): [QuestionCommentBlock]
+    questionBlocks(take: Int, lastId: Int): [Question]
+    questionCommentBlocks(take: Int, lastId: Int): [QuestionComment]
     isBlocked: Boolean!
     isMe: Boolean!
     lastLogin: String
