@@ -19,6 +19,11 @@ export default gql`
     questionCommentBlocks(take: Int, lastId: Int): [QuestionComment]
     isBlocked: Boolean!
     isMe: Boolean!
+    isFollowing: Boolean!
+    followings(take: Int, lastId: Int): [User]
+    followers(take: Int, lastId: Int): [User]
+    totalFollowings: Int!
+    totalFollowers: Int!
     lastLogin: String
     createdAt: String!
     updatedAt: String!

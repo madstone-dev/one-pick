@@ -10,7 +10,7 @@ export default gql`
   type Mutation {
     createQuestion(
       content: String!
-      image: Upload
+      image: Upload!
       choice: [String!]!
       questionHashtags: String
     ): CreateQuestionResult!

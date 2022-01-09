@@ -14,6 +14,8 @@ model User {
   username               String                  @unique
   password               String
   avatar                 String?
+  followers              User[]                  @relation("FollowRelation", references: [id])
+  followings             User[]                  @relation("FollowRelation", references: [id])
   role                   Role                    @default(user)
   questions              Question[]
   picks                  PickersOnQuestions[]
@@ -48,7 +50,7 @@ model Question {
   user             User?                @relation(fields: [userId], references: [id], onDelete: SetNull)
   userId           Int?
   content          String
-  image            String?
+  image            String
   choice           String[]
   questionHashtags QuestionHashtag[]
   pickers          PickersOnQuestions[]

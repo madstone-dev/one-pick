@@ -241,6 +241,108 @@ export default {
         return id === auth.id;
       }
     },
+    isFollowing: async ({ id }: { id: number }, __: any, { auth }: Context) => {
+      if (!auth) {
+        return false;
+      }
+      const exists = await client.user.count({
+        where: {
+          username: auth.username,
+          followings: {
+            some: {
+              id,
+            },
+          },
+        },
+      });
+      return Boolean(exists);
+    },
+    followings: async (
+      { id }: { id: number },
+      { take = 20, lastId }: IcursorPaginateProps,
+      { auth }: Context
+    ) => {
+      if (!auth) {
+        return [];
+      }
+
+      if (auth.id !== id) {
+        return [];
+      }
+
+      return await client.user.findMany({
+        where: {
+          followers: {
+            some: {
+              id,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+        take,
+        skip: lastId ? 1 : 0,
+        ...(lastId && {
+          cursor: {
+            id: lastId,
+          },
+        }),
+      });
+    },
+    followers: async (
+      { id }: { id: number },
+      { take = 20, lastId }: IcursorPaginateProps,
+      { auth }: Context
+    ) => {
+      if (!auth) {
+        return [];
+      }
+
+      if (auth.id !== id) {
+        return [];
+      }
+
+      return await client.user.findMany({
+        where: {
+          followings: {
+            some: {
+              id,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+        take,
+        skip: lastId ? 1 : 0,
+        ...(lastId && {
+          cursor: {
+            id: lastId,
+          },
+        }),
+      });
+    },
+    totalFollowings: ({ id }: { id: number }) =>
+      client.user.count({
+        where: {
+          followers: {
+            some: {
+              id,
+            },
+          },
+        },
+      }),
+    totalFollowers: ({ id }: { id: number }) =>
+      client.user.count({
+        where: {
+          followings: {
+            some: {
+              id,
+            },
+          },
+        },
+      }),
   },
   UserBlock: {
     blockedUser: ({ blockId }: { blockId: number }) =>

@@ -10,11 +10,7 @@ import { choiceMax, processHashtags } from "../questions.utils";
 export default {
   Mutation: {
     updateQuestion: authResolver(
-      async (
-        _,
-        { id, content, image, choice, questionHashtags, fileExists },
-        { auth }
-      ) => {
+      async (_, { id, content, image, choice, questionHashtags }, { auth }) => {
         const oldQuestion = await client.question.findFirst({
           where: {
             id,
@@ -75,14 +71,6 @@ export default {
                 error: deleteResult.error,
               };
             }
-            await client.question.update({
-              where: {
-                id,
-              },
-              data: {
-                image: null,
-              },
-            });
           }
         };
 
@@ -112,10 +100,6 @@ export default {
             };
           } else {
             imageData = JSON.stringify(uploadResult.data);
-          }
-        } else {
-          if (!fileExists) {
-            await removeOldImage();
           }
         }
 
