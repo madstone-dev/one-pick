@@ -1,6 +1,34 @@
 import jwt from "jsonwebtoken";
 import client from "../../client";
 import { Context, Resolver } from "../_shared/_shared.types";
+import nodemailer from "nodemailer";
+import mg from "nodemailer-mailgun-transport";
+
+const mailAuth = {
+  auth: {
+    api_key: process.env.MAILGUN_KEY as string,
+    domain: process.env.MAILGUN_DOMAIN as string,
+  },
+};
+
+const nodemailerMailgun = nodemailer.createTransport(mg(mailAuth));
+
+export const sendMail = ({ to, subject, html }: any) =>
+  nodemailerMailgun.sendMail(
+    {
+      from: "no-reply@myapp.com",
+      to,
+      subject,
+      html,
+    },
+    (err, info) => {
+      if (err) {
+        console.log(`Error: ${err}`);
+      } else {
+        console.log(`Response: ${info}`);
+      }
+    }
+  );
 
 export const getUser = async (token: string) => {
   if (!token) {

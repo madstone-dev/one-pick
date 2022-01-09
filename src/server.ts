@@ -38,6 +38,16 @@ async function startApolloServer() {
           max: 10,
           message: "너무 많은 요청입니다.",
         }),
+        updateUser: rateLimitRule({
+          window: "1s",
+          max: 10,
+          message: "너무 많은 요청입니다.",
+        }),
+        forgotPassword: rateLimitRule({
+          window: "1s",
+          max: 5,
+          message: "너무 많은 요청입니다.",
+        }),
       },
     },
     {
