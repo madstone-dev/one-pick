@@ -9,6 +9,7 @@ export default gql`
     avatar: JSON_Parsed
     role: String!
     questions(take: Int, lastId: Int): [Question]
+    totalQuestions: Int!
     picks(take: Int, lastId: Int): [Question]
     totalPicks: Int!
     questionComments(take: Int, lastId: Int): [QuestionComment]

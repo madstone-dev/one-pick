@@ -33,6 +33,8 @@ export default {
           },
         }),
       }),
+    totalQuestions: ({ id }: { id: number }) =>
+      client.question.count({ where: { userId: id } }),
     picks: (
       { id }: { id: number },
       { take = 20, lastId }: IcursorPaginateProps,
