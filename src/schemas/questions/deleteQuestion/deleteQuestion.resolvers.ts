@@ -5,12 +5,21 @@ import { deleteSingleFromS3 } from "../../_shared/_shared.utils";
 export default {
   Mutation: {
     deleteQuestion: authResolver(async (_, { id }, { auth }) => {
-      const question = await client.question.findFirst({
-        where: {
-          id,
-          userId: auth.id,
-        },
-      });
+      let question;
+      if (auth.role === "admin") {
+        question = await client.question.findFirst({
+          where: {
+            id,
+          },
+        });
+      } else {
+        question = await client.question.findFirst({
+          where: {
+            id,
+            userId: auth.id,
+          },
+        });
+      }
 
       if (!question) {
         return {

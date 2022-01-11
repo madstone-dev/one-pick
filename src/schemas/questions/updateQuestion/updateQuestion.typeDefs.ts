@@ -12,7 +12,7 @@ export default gql`
       id: Int!
       content: String
       image: Upload
-      choice: [String]
+      choice: [String!]!
       questionHashtags: String
     ): UpdateQuestionResult!
   }

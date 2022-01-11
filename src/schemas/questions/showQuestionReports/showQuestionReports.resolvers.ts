@@ -1,23 +1,25 @@
 import client from "../../../client";
-import { adminResolver } from "../../users/users.utils";
 
 export default {
   Query: {
-    showQuestionCommentReports: adminResolver(
-      async (_, { take = 20, lastId }, { auth }) => {
-        return client.questionCommentReport.findMany({
-          orderBy: {
-            createdAt: "desc",
-          },
-          take,
-          skip: lastId ? 1 : 0,
-          ...(lastId && {
-            cursor: {
-              id: lastId,
-            },
-          }),
-        });
-      }
-    ),
+    showQuestionReports: async (_: any, { page = 1, take = 20 }: any) => {
+      const totalReports = await client.questionReport.count();
+
+      const reports = await client.questionReport.findMany({
+        orderBy: {
+          createdAt: "asc",
+        },
+        take,
+        skip: page > 0 ? (page - 1) * take : 0,
+      });
+
+      const lastPage = totalReports === 0 ? 1 : Math.ceil(totalReports / take);
+
+      return {
+        totalReports,
+        reports,
+        lastPage,
+      };
+    },
   },
 };

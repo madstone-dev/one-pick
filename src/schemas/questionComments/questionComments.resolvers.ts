@@ -51,4 +51,12 @@ export default {
         },
       }),
   },
+  QuestionCommentReport: {
+    questionComment: ({ questionCommentId }: { questionCommentId: number }) =>
+      client.questionComment.findUnique({
+        where: {
+          id: questionCommentId,
+        },
+      }),
+  },
 };

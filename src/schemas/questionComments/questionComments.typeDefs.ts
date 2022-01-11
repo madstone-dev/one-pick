@@ -15,15 +15,14 @@ export default gql`
   type QuestionCommentBlock {
     id: Int!
     uesr: User!
-    questionComment: QuestionComment
+    questionComment: QuestionComment!
   }
 
   type QuestionCommentReport {
     id: Int!
     uesr: User!
-    questionComment: QuestionComment
+    questionComment: QuestionComment!
     type: Int!
-    message: String
     createdAt: String!
     updatedAt: String!
   }

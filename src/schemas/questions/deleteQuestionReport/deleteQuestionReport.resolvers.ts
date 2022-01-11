@@ -3,7 +3,7 @@ import { adminResolver } from "../../users/users.utils";
 
 export default {
   Mutation: {
-    deleteQuestionReport: adminResolver(async (_, { id }, { auth }) => {
+    deleteQuestionReport: adminResolver(async (_, { id }) => {
       const questionReport = await client.questionReport.findUnique({
         where: {
           id,

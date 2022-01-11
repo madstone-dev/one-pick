@@ -4,15 +4,28 @@ import { authResolver } from "../../users/users.utils";
 export default {
   Mutation: {
     deleteQuestionComment: authResolver(async (_, { id }, { auth }) => {
-      const comment = await client.questionComment.findFirst({
-        where: {
-          id,
-          userId: auth.id,
-        },
-        select: {
-          id: true,
-        },
-      });
+      let comment;
+      if (auth.role === "admin") {
+        comment = await client.questionComment.findFirst({
+          where: {
+            id,
+          },
+          select: {
+            id: true,
+          },
+        });
+      } else {
+        comment = await client.questionComment.findFirst({
+          where: {
+            id,
+            userId: auth.id,
+          },
+          select: {
+            id: true,
+          },
+        });
+      }
+
       if (!comment) {
         return {
           ok: false,

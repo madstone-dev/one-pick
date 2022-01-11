@@ -1,7 +1,16 @@
 import { gql } from "apollo-server-core";
 
 export default gql`
+  type ShowQuestionCommentReportsResult {
+    totalReports: Int!
+    lastPage: Int!
+    reports: [QuestionCommentReport!]!
+  }
+
   type Query {
-    showQuestionCommentReports(take: Int, lastId: Int): [Question]
+    showQuestionCommentReports(
+      page: Int
+      take: Int
+    ): ShowQuestionCommentReportsResult!
   }
 `;

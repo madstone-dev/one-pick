@@ -17,6 +17,13 @@ export default {
         };
       }
 
+      if (question.userId === auth.id) {
+        return {
+          ok: false,
+          error: "본인의 게시물을 숨길 수 없습니다.",
+        };
+      }
+
       const blockWhere = {
         questionId_userId: {
           questionId: id,

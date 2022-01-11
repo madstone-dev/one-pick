@@ -7,6 +7,6 @@ export default gql`
       isTag: Boolean
       take: Int
       lastId: Int
-    ): [Question]
+    ): [Question!]
   }
 `;

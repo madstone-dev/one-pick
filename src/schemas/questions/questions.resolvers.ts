@@ -193,4 +193,12 @@ export default {
         },
       }),
   },
+  QuestionReport: {
+    question: ({ questionId }: { questionId: number }) =>
+      client.question.findUnique({
+        where: {
+          id: questionId,
+        },
+      }),
+  },
 };
