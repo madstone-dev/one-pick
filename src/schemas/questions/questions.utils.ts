@@ -4,8 +4,8 @@ export const processHashtags = (hashtagsString: string): any[] => {
     return hashtagsArr.map((hashtag, index) => {
       if (index < 10) {
         return {
-          where: { hashtag },
-          create: { hashtag },
+          where: { hashtag: hashtag.slice(1) },
+          create: { hashtag: hashtag.slice(1) },
         };
       }
     });

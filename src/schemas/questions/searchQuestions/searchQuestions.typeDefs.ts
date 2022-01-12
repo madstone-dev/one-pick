@@ -4,7 +4,7 @@ export default gql`
   type Query {
     searchQuestions(
       keyword: String
-      isTag: Boolean
+      type: String!
       take: Int
       lastId: Int
     ): [Question!]

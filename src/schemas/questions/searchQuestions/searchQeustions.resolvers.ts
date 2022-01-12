@@ -4,9 +4,12 @@ export default {
   Query: {
     searchQuestions: (
       _: any,
-      { keyword, isTag, take = 20, lastId }: any,
+      { keyword, type, take = 20, lastId }: any,
       { auth }: any
     ) => {
+      if (keyword?.indexOf("#") === 0) {
+        keyword = keyword.slice(1);
+      }
       if (!keyword) {
         return [];
       }
@@ -15,30 +18,31 @@ export default {
       }
       return client.question.findMany({
         where: {
-          ...(isTag
-            ? {
+          ...(type === "hashtag" && {
+            questionHashtags: {
+              some: {
+                hashtag: keyword,
+              },
+            },
+          }),
+          ...(type === "text" && {
+            OR: [
+              {
+                content: {
+                  contains: keyword,
+                },
+              },
+              {
                 questionHashtags: {
                   some: {
-                    hashtag: keyword,
-                  },
-                },
-              }
-            : {
-                OR: [
-                  {
-                    content: {
+                    hashtag: {
                       contains: keyword,
                     },
                   },
-                  {
-                    questionHashtags: {
-                      some: {
-                        hashtag: keyword,
-                      },
-                    },
-                  },
-                ],
-              }),
+                },
+              },
+            ],
+          }),
           ...(auth && {
             NOT: {
               questionBlocks: {

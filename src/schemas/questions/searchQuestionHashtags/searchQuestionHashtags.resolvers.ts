@@ -2,17 +2,24 @@ import client from "../../../client";
 
 export default {
   Query: {
-    searchQuestionHashtags: (_: any, { keyword }: any) =>
-      client.questionHashtag.findMany({
+    searchQuestionHashtags: async (_: any, { keyword }: any) => {
+      if (keyword) {
+        if (keyword.indexOf("#") === 0) {
+          keyword = keyword.slice(1);
+        }
+      }
+
+      return await client.questionHashtag.findMany({
         where: {
           hashtag: {
             contains: keyword,
           },
         },
         orderBy: {
-          createdAt: "desc",
+          hashtag: "asc",
         },
         take: 20,
-      }),
+      });
+    },
   },
 };
