@@ -2,9 +2,18 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import client from "../../../client";
 
+interface IresetPassword {
+  email: string;
+  password: string;
+  token: string;
+}
+
 export default {
   Mutation: {
-    resetPassword: async (_: any, { email, token, password }: any) => {
+    resetPassword: async (
+      _: any,
+      { email, password, token }: IresetPassword
+    ) => {
       if (password) {
         if (password.length < 8) {
           return {

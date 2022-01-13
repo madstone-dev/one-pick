@@ -6,12 +6,19 @@ export interface Context {
   auth: User;
 }
 
-export type IcursorPaginateProps = {
+export interface IpaginateProps {
   id?: number;
   keyword?: string;
   take: number;
+}
+
+export interface IcursorPaginateProps extends IpaginateProps {
   lastId: number;
-};
+}
+
+export interface IoffsetPaginateProps extends IpaginateProps {
+  page: number;
+}
 
 export type Resolver = (
   root: any,

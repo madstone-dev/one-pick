@@ -1,11 +1,16 @@
 import client from "../../../client";
+import { Context, IcursorPaginateProps } from "../../_shared/_shared.types";
+
+interface IsearchQuestions extends IcursorPaginateProps {
+  type: string;
+}
 
 export default {
   Query: {
     searchQuestions: (
       _: any,
-      { keyword, type, take = 20, lastId }: any,
-      { auth }: any
+      { keyword, type, take = 20, lastId }: IsearchQuestions,
+      { auth }: Context
     ) => {
       if (keyword?.indexOf("#") === 0) {
         keyword = keyword.slice(1);

@@ -1,12 +1,12 @@
 import client from "../../../client";
-import { IcursorPaginateProps } from "../../_shared/_shared.types";
+import { Context, IcursorPaginateProps } from "../../_shared/_shared.types";
 
 export default {
   Query: {
     showQuestions: (
       _: any,
       { take = 20, lastId }: IcursorPaginateProps,
-      { auth }: any
+      { auth }: Context
     ) => {
       return client.question.findMany({
         where: {

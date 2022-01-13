@@ -1,8 +1,12 @@
 import client from "../../../client";
+import { IoffsetPaginateProps } from "../../_shared/_shared.types";
 
 export default {
   Query: {
-    searchUsers: async (_: any, { keyword, page = 1, take = 20 }: any) => {
+    searchUsers: async (
+      _: any,
+      { keyword, page = 1, take = 20 }: IoffsetPaginateProps
+    ) => {
       const totalUsers = await client.user.count({
         ...(keyword && {
           where: {

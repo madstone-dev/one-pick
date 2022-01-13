@@ -2,9 +2,13 @@ import client from "../../../client";
 import { forgotPasswordMail } from "../../../mails/forgotPasswordMail";
 import { sendMail } from "../users.utils";
 
+interface IforgotPassword {
+  email: string;
+}
+
 export default {
   Mutation: {
-    forgotPassword: async (_: any, { email }: any) => {
+    forgotPassword: async (_: any, { email }: IforgotPassword) => {
       const user = await client.user.findUnique({
         where: {
           email,

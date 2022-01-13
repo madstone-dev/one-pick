@@ -1,10 +1,11 @@
 import client from "../../../client";
+import { IoffsetPaginateProps } from "../../_shared/_shared.types";
 
 export default {
   Query: {
     showQuestionCommentReports: async (
       _: any,
-      { page = 1, take = 20 }: any
+      { page = 1, take = 20 }: IoffsetPaginateProps
     ) => {
       const totalReports = await client.questionCommentReport.count();
 

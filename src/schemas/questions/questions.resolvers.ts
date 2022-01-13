@@ -14,7 +14,11 @@ export default {
         },
       });
     },
-    isMine: ({ userId }: { userId: number | null }, __: any, { auth }: any) => {
+    isMine: (
+      { userId }: { userId: number | null },
+      __: any,
+      { auth }: Context
+    ) => {
       if (!userId) {
         return false;
       }
@@ -57,7 +61,7 @@ export default {
           questionId: id,
         },
       }),
-    isPicker: async ({ id }: { id: number }, __: any, { auth }: any) => {
+    isPicker: async ({ id }: { id: number }, __: any, { auth }: Context) => {
       if (!auth) {
         return false;
       }
@@ -75,7 +79,7 @@ export default {
       }
       return false;
     },
-    myPick: async ({ id }: { id: number }, __: any, { auth }: any) => {
+    myPick: async ({ id }: { id: number }, __: any, { auth }: Context) => {
       if (!auth) {
         return;
       }
@@ -138,7 +142,7 @@ export default {
       }),
     totalLikes: ({ id }: { id: number }) =>
       client.questionLike.count({ where: { questionId: id } }),
-    isLiked: async ({ id }: { id: number }, __: any, { auth }: any) => {
+    isLiked: async ({ id }: { id: number }, __: any, { auth }: Context) => {
       if (!auth) {
         return false;
       }

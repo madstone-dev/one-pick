@@ -13,7 +13,13 @@ const mailAuth = {
 
 const nodemailerMailgun = nodemailer.createTransport(mg(mailAuth));
 
-export const sendMail = ({ to, subject, html }: any) =>
+interface IsendMail {
+  to: string;
+  subject: string;
+  html: string;
+}
+
+export const sendMail = ({ to, subject, html }: IsendMail) =>
   nodemailerMailgun.sendMail(
     {
       from: "no-reply@myapp.com",

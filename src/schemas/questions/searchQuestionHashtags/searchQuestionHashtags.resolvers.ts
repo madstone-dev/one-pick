@@ -1,8 +1,12 @@
 import client from "../../../client";
+import { IcursorPaginateProps } from "../../_shared/_shared.types";
 
 export default {
   Query: {
-    searchQuestionHashtags: async (_: any, { keyword }: any) => {
+    searchQuestionHashtags: async (
+      _: any,
+      { keyword }: IcursorPaginateProps
+    ) => {
       if (keyword) {
         if (keyword.indexOf("#") === 0) {
           keyword = keyword.slice(1);

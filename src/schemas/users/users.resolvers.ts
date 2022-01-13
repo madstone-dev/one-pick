@@ -1,4 +1,3 @@
-import { number } from "yup/lib/locale";
 import client from "../../client";
 import { Context, IcursorPaginateProps } from "../_shared/_shared.types";
 
@@ -7,7 +6,7 @@ export default {
     questions: (
       { id }: { id: number },
       { take = 20, lastId }: IcursorPaginateProps,
-      { auth }: any
+      { auth }: Context
     ) =>
       client.question.findMany({
         where: {
@@ -38,7 +37,7 @@ export default {
     picks: (
       { id }: { id: number },
       { take = 20, lastId }: IcursorPaginateProps,
-      { auth }: any
+      { auth }: Context
     ) =>
       client.question.findMany({
         where: {

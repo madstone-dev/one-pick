@@ -1,8 +1,12 @@
 import client from "../../../client";
+import { IoffsetPaginateProps } from "../../_shared/_shared.types";
 
 export default {
   Query: {
-    showQuestionReports: async (_: any, { page = 1, take = 20 }: any) => {
+    showQuestionReports: async (
+      _: any,
+      { page = 1, take = 20 }: IoffsetPaginateProps
+    ) => {
       const totalReports = await client.questionReport.count();
 
       const reports = await client.questionReport.findMany({
