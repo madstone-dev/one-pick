@@ -74,6 +74,7 @@ async function startApolloServer() {
   const whitelist = [
     "http://localhost:3000",
     "https://studio.apollographql.com",
+    "https://one-pick-web-madstone.herokuapp.com",
   ];
 
   const corsOption = {
