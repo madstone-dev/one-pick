@@ -17,6 +17,14 @@ const PORT = process.env.PORT || 4000;
 
 async function startApolloServer() {
   const app = express();
+  if (process.env.NODE_ENV === "production") {
+    app.use((req, res, next) => {
+      if (req.header("x-forwarded-proto") !== "https")
+        res.redirect(`https://${req.header("host")}${req.url}`);
+      else next();
+    });
+  }
+  app.use(express.static("build"));
   app.use(logger("tiny"));
   app.use(graphqlUploadExpress());
   const httpServer = http.createServer(app);
@@ -75,6 +83,7 @@ async function startApolloServer() {
     "http://localhost:3000",
     "https://studio.apollographql.com",
     "https://one-pick-web-madstone.herokuapp.com",
+    "https://www.onepick.fun",
   ];
 
   const corsOption = {

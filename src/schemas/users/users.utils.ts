@@ -22,7 +22,7 @@ interface IsendMail {
 export const sendMail = ({ to, subject, html }: IsendMail) =>
   nodemailerMailgun.sendMail(
     {
-      from: "no-reply@myapp.com",
+      from: "no-reply@onepick.fun",
       to,
       subject,
       html,

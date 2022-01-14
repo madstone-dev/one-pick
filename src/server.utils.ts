@@ -24,6 +24,8 @@ export const validRefreshToken = async ({ req, res }: any) => {
   if (!refreshToken) {
     cookies.set("refreshToken", refreshToken, {
       maxAge: -1,
+      secureProxy: true,
+      path: "/",
     });
     throw Error("유효한 갱신 토큰이 아닙니다.");
   }
@@ -32,6 +34,8 @@ export const validRefreshToken = async ({ req, res }: any) => {
   } catch (error) {
     cookies.set("refreshToken", refreshToken, {
       maxAge: -1,
+      secureProxy: true,
+      path: "/",
     });
     throw Error("유효한 갱신 토큰이 아닙니다.");
   }

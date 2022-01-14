@@ -2,7 +2,10 @@ import jwt from "jsonwebtoken";
 
 export const forgotPasswordMail = async (userId: number, email: string) => {
   const appName = "One Pick!";
-  const domain = "http://localhost:3000/";
+  const domain =
+    process.env.NODE_ENV === "production"
+      ? "https://www.onepick.fun/"
+      : "http://localhost:3000/";
   let resetToken = "";
   resetToken = await jwt.sign(
     { id: userId },

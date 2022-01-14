@@ -52,8 +52,8 @@ export default {
 
       cookies.set("refreshToken", refreshToken, {
         signed: true,
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
+        secureProxy: true,
+        path: "/",
       });
 
       return {
