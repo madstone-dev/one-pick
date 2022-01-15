@@ -84,6 +84,7 @@ async function startApolloServer() {
     "https://studio.apollographql.com",
     "https://one-pick-web-madstone.herokuapp.com",
     "https://www.onepick.fun",
+    "https://www.one-pick.win",
   ];
 
   const corsOption = {
