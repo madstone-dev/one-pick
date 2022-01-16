@@ -1,6 +1,12 @@
 import { gql } from "apollo-server-core";
 
 export default gql`
+  type QuestionUserPicks {
+    first: Int!
+    second: Int!
+    total: Int!
+  }
+
   type Question {
     id: Int!
     user: User
@@ -13,6 +19,7 @@ export default gql`
     totalPickers: Int!
     isPicker: Boolean!
     myPick: Int
+    userPicks: QuestionUserPicks!
     questionComments(take: Int, lastId: Int): [QuestionComment!]!
     totalComments: Int!
     questionLikes(take: Int, lastId: Int): [QuestionLike!]!

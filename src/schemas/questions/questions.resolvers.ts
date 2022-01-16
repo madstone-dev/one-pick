@@ -98,6 +98,55 @@ export default {
         return;
       }
     },
+    userPicks: async ({ id }: { id: number }, __: any, { auth }: Context) => {
+      const first = await client.pickersOnQuestions.count({
+        where: {
+          questionId: id,
+          pick: 1,
+        },
+      });
+
+      const second = await client.pickersOnQuestions.count({
+        where: {
+          questionId: id,
+          pick: 2,
+        },
+      });
+
+      const total = first + second;
+
+      if (!auth) {
+        return {
+          first: 0,
+          second: 0,
+          total,
+        };
+      }
+
+      const myPick = await client.pickersOnQuestions.findFirst({
+        where: {
+          questionId: id,
+          userId: auth.id,
+        },
+        select: {
+          pick: true,
+        },
+      });
+
+      if (!myPick) {
+        return {
+          first: 0,
+          second: 0,
+          total,
+        };
+      }
+
+      return {
+        first,
+        second,
+        total,
+      };
+    },
     questionComments: (
       { id }: { id: number },
       { take = 20, lastId }: IcursorPaginateProps
