@@ -52,6 +52,7 @@ model Question {
   content          String
   image            String
   choice           String[]
+  hashtagString    String?
   questionHashtags QuestionHashtag[]
   pickers          PickersOnQuestions[]
   questionComments QuestionComment[]

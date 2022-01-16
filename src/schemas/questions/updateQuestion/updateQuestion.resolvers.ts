@@ -5,7 +5,11 @@ import {
   uploadToS3,
   validateFileExtensions,
 } from "../../_shared/_shared.utils";
-import { choiceMax, processHashtags } from "../questions.utils";
+import {
+  choiceMax,
+  processHashtags,
+  processHashtagsString,
+} from "../questions.utils";
 
 export default {
   Mutation: {
@@ -112,6 +116,7 @@ export default {
             image: imageData,
             choice,
             ...(questionHashtags && {
+              hashtagString: processHashtagsString(questionHashtags).join(" "),
               questionHashtags: {
                 disconnect: oldQuestion.questionHashtags,
                 connectOrCreate: processHashtags(questionHashtags),

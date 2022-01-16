@@ -13,4 +13,16 @@ export const processHashtags = (hashtagsString: string): any[] => {
   return [];
 };
 
+export const processHashtagsString = (hashtagsString: string): any[] => {
+  if (hashtagsString) {
+    const hashtagsArr = hashtagsString.match(/#([^\u0000-\u007F]|\w)+/g) || [];
+    return hashtagsArr.map((hashtag, index) => {
+      if (index < 10) {
+        return hashtag;
+      }
+    });
+  }
+  return [];
+};
+
 export const choiceMax = 2;

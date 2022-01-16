@@ -14,6 +14,7 @@ export default gql`
     content: String!
     image: JSON_Parsed
     choice: [String!]!
+    hashtagString: String
     questionHashtags: [QuestionHashtag!]!
     pickers(take: Int, lastId: Int): [PickersOnQuestions!]!
     totalPickers: Int!
