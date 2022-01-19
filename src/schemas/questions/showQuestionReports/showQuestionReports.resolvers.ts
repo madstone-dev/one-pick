@@ -11,7 +11,7 @@ export default {
 
       const reports = await client.questionReport.findMany({
         orderBy: {
-          createdAt: "asc",
+          id: "asc",
         },
         take,
         skip: page > 0 ? (page - 1) * take : 0,

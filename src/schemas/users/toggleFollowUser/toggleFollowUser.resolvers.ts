@@ -18,11 +18,15 @@ export default {
 
       const isFollowing = await client.user.findFirst({
         where: {
+          id: auth.id,
           followings: {
             some: {
               id,
             },
           },
+        },
+        include: {
+          followings: true,
         },
       });
 

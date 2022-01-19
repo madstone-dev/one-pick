@@ -6,7 +6,7 @@ export default {
     showBlockedUsers: (_: any, { take = 20, lastId }: IcursorPaginateProps) =>
       client.userBlock.findMany({
         orderBy: {
-          createdAt: "desc",
+          id: "desc",
         },
         take,
         skip: lastId ? 1 : 0,

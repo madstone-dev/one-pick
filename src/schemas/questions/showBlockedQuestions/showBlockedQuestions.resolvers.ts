@@ -9,7 +9,7 @@ export default {
     ) => {
       return client.questionBlock.findMany({
         orderBy: {
-          createdAt: "desc",
+          id: "desc",
         },
         take,
         skip: lastId ? 1 : 0,

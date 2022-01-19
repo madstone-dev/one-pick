@@ -26,7 +26,7 @@ export default {
           },
         }),
         orderBy: {
-          createdAt: "desc",
+          id: "desc",
         },
         take,
         skip: page > 0 ? (page - 1) * take : 0,

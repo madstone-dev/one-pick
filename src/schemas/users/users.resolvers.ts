@@ -22,7 +22,7 @@ export default {
           }),
         },
         orderBy: {
-          createdAt: "desc",
+          id: "desc",
         },
         take,
         skip: lastId ? 1 : 0,
@@ -57,7 +57,7 @@ export default {
           }),
         },
         orderBy: {
-          createdAt: "desc",
+          id: "desc",
         },
         take,
         skip: lastId ? 1 : 0,
@@ -78,7 +78,7 @@ export default {
           userId: id,
         },
         orderBy: {
-          createdAt: "desc",
+          id: "desc",
         },
         take,
         skip: lastId ? 1 : 0,
@@ -105,7 +105,7 @@ export default {
           },
         },
         orderBy: {
-          createdAt: "desc",
+          id: "desc",
         },
         take,
         skip: lastId ? 1 : 0,
@@ -137,7 +137,7 @@ export default {
           },
         },
         orderBy: {
-          createdAt: "desc",
+          id: "desc",
         },
         take,
         skip: lastId ? 1 : 0,
@@ -170,7 +170,7 @@ export default {
           },
         },
         orderBy: {
-          createdAt: "desc",
+          id: "desc",
         },
         take,
         skip: lastId ? 1 : 0,
@@ -203,7 +203,7 @@ export default {
           },
         },
         orderBy: {
-          createdAt: "desc",
+          id: "desc",
         },
         take,
         skip: lastId ? 1 : 0,
@@ -267,10 +267,6 @@ export default {
         return [];
       }
 
-      if (auth.id !== id) {
-        return [];
-      }
-
       return await client.user.findMany({
         where: {
           followers: {
@@ -280,7 +276,7 @@ export default {
           },
         },
         orderBy: {
-          createdAt: "desc",
+          id: "desc",
         },
         take,
         skip: lastId ? 1 : 0,
@@ -300,10 +296,6 @@ export default {
         return [];
       }
 
-      if (auth.id !== id) {
-        return [];
-      }
-
       return await client.user.findMany({
         where: {
           followings: {
@@ -313,7 +305,7 @@ export default {
           },
         },
         orderBy: {
-          createdAt: "desc",
+          id: "desc",
         },
         take,
         skip: lastId ? 1 : 0,

@@ -22,7 +22,7 @@ export default {
           }),
         },
         orderBy: {
-          createdAt: "desc",
+          id: "desc",
         },
         take,
         skip: lastId ? 1 : 0,

@@ -43,7 +43,7 @@ export default {
           questionId: id,
         },
         orderBy: {
-          createdAt: "desc",
+          id: "desc",
         },
         take,
         skip: lastId ? 1 : 0,
@@ -156,7 +156,7 @@ export default {
           questionId: id,
         },
         orderBy: {
-          createdAt: "desc",
+          id: "desc",
         },
         take,
         skip: lastId ? 1 : 0,
@@ -179,7 +179,7 @@ export default {
           questionId: id,
         },
         orderBy: {
-          createdAt: "desc",
+          id: "desc",
         },
         take,
         skip: lastId ? 1 : 0,
