@@ -26,7 +26,7 @@ export default {
           }
           const exists = await client.user.findUnique({
             where: {
-              username,
+              username: username.trim(),
             },
             select: {
               id: true,
@@ -104,7 +104,9 @@ export default {
             id: auth.id,
           },
           data: {
-            username,
+            ...(username && {
+              username: username.trim(),
+            }),
             password: hashedPassword,
             avatar: newAvatarData,
           },

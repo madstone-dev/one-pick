@@ -47,6 +47,7 @@ export default {
           };
         }
 
+        let trimedChoice;
         if (choice) {
           if (choice?.length !== choiceMax) {
             return {
@@ -54,6 +55,17 @@ export default {
               error: `보기 ${choiceMax}개를 모두 작성해주세요. `,
             };
           }
+
+          for (let i = 0; i < choice.length; i++) {
+            if (!choice[i].trim()) {
+              return {
+                ok: false,
+                error: "선택지 내용을 반드시 입력해주세요",
+              };
+            }
+          }
+
+          trimedChoice = choice.map((c: string) => c.trim());
         }
 
         if (content) {
@@ -112,9 +124,11 @@ export default {
             id,
           },
           data: {
-            content,
+            content: content.trim(),
             image: imageData,
-            choice,
+            ...(choice && {
+              choice: trimedChoice,
+            }),
             ...(questionHashtags && {
               hashtagString: processHashtagsString(questionHashtags).join(" "),
               questionHashtags: {

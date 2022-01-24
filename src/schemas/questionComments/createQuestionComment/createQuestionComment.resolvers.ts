@@ -5,6 +5,13 @@ export default {
   Mutation: {
     createQuestionComment: authResolver(
       async (_, { id, content }, { auth }) => {
+        if (!content.trim()) {
+          return {
+            ok: false,
+            error: "내용을 입력해주세요.",
+          };
+        }
+
         const question = await client.question.findUnique({
           where: {
             id,
@@ -37,7 +44,7 @@ export default {
           data: {
             questionId: id,
             userId: auth.id,
-            content,
+            content: content.trim(),
             pick: picker.pick,
           },
         });

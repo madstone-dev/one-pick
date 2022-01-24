@@ -32,6 +32,17 @@ export default {
           };
         }
 
+        for (let i = 0; i < choice.length; i++) {
+          if (!choice[i].trim()) {
+            return {
+              ok: false,
+              error: "선택지 내용을 반드시 입력해주세요",
+            };
+          }
+        }
+
+        const trimedChoice = choice.map((c: string) => c.trim());
+
         let imageData;
         const extensions = ["jpg", "jpeg", "png"];
         if (!(await validateFileExtensions(extensions, image))) {
@@ -65,9 +76,9 @@ export default {
                 id: auth.id,
               },
             },
-            content,
+            content: content.trim(),
             image: imageData,
-            choice,
+            choice: trimedChoice,
             hashtagString: processHashtagsString(questionHashtags).join(" "),
             questionHashtags: {
               connectOrCreate: processHashtags(questionHashtags),

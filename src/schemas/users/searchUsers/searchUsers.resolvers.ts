@@ -11,7 +11,7 @@ export default {
         ...(keyword && {
           where: {
             username: {
-              contains: keyword,
+              contains: keyword.trim(),
             },
           },
         }),
@@ -21,7 +21,7 @@ export default {
         ...(keyword && {
           where: {
             username: {
-              contains: keyword,
+              contains: keyword.trim(),
             },
           },
         }),

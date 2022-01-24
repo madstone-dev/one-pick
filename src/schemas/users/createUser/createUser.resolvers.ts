@@ -67,7 +67,7 @@ export default {
 
       const emailExists = await client.user.findUnique({
         where: {
-          email,
+          email: email.trim(),
         },
       });
 
@@ -80,7 +80,7 @@ export default {
 
       const usernameExists = await client.user.findUnique({
         where: {
-          username,
+          username: username.trim(),
         },
       });
 
@@ -95,8 +95,8 @@ export default {
 
       await client.user.create({
         data: {
-          email,
-          username,
+          email: email.trim(),
+          username: username.trim(),
           password: hashedPassword,
         },
       });

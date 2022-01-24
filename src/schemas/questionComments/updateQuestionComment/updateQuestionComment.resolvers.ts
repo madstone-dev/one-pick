@@ -5,6 +5,13 @@ export default {
   Mutation: {
     updateQuestionComment: authResolver(
       async (_, { id, content }, { auth }) => {
+        if (!content.trim()) {
+          return {
+            ok: false,
+            error: "내용을 입력해주세요.",
+          };
+        }
+
         const comment = await client.questionComment.findFirst({
           where: {
             id,
@@ -26,7 +33,7 @@ export default {
             id,
           },
           data: {
-            content,
+            content: content.trim(),
           },
         });
 

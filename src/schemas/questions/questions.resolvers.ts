@@ -115,32 +115,6 @@ export default {
 
       const total = first + second;
 
-      // if (!auth) {
-      //   return {
-      //     first: 0,
-      //     second: 0,
-      //     total,
-      //   };
-      // }
-
-      // const myPick = await client.pickersOnQuestions.findFirst({
-      //   where: {
-      //     questionId: id,
-      //     userId: auth.id,
-      //   },
-      //   select: {
-      //     pick: true,
-      //   },
-      // });
-
-      // if (!myPick) {
-      //   return {
-      //     first: 0,
-      //     second: 0,
-      //     total,
-      //   };
-      // }
-
       return {
         first,
         second,
