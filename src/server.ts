@@ -83,7 +83,9 @@ async function startApolloServer() {
     "http://localhost:3000",
     "https://studio.apollographql.com",
     "https://one-pick-web-madstone.herokuapp.com",
+    "https://onepick.fun",
     "https://www.onepick.fun",
+    "https://one-pick.win",
     "https://www.one-pick.win",
   ];
 
